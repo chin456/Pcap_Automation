@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: automation-pcap
+  namespace: lrb-2511-udm-udr-simulator
+spec:
+  containers:
+    - name: automation-pcap
+      image: <your-image-name:tag>
+      imagePullPolicy: IfNotPresent
+      env:
+        - name: SSH_HOST
+          value: "10.69.96.70"
+        - name: SSH_PORT
+          value: "31751"
+        - name: SSH_USER
+          value: "admin"
+        - name: SSH_PASS
+          value: "password"
+        - name: CONFIG_TARGET
+          value: "udm"
+        - name: INTERFACE
+          value: "any"
+        - name: CAPTURE_FILTER
+          value: "host 10.128.12.0/24"
+        - name: IDLE_TIMEOUT
+          value: "0"
+      volumeMounts:
+        - name: pcap-data
+          mountPath: /mnt/data/pcap
+  volumes:
+    - name: pcap-data
+      emptyDir: {}
